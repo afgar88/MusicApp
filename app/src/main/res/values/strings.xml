@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MusicApp</string>
     <string name="title_rock">Rock</string>
-    <string name="title_classical">Classica</string>
+    <string name="title_classical">Classical</string>
     <string name="title_pop">Pop</string>
 
 
