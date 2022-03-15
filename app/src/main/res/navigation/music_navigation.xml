@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/music_navigation">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/music_navigation"
+    android:label="@string/title_rock"
+    app:startDestination="@id/rockFragment">
 
+    <fragment
+        android:id="@+id/rockFragment"
+        android:name="com.example.musicapp.views.RockFragment"
+        android:label="@string/title_rock"
+        tools:layout="@layout/fragment_rock" />
+    <fragment
+        android:id="@+id/popFragment"
+        android:name="com.example.musicapp.views.PopFragment"
+        android:label="@string/title_pop"
+        tools:layout="@layout/fragment_pop" />
+    <fragment
+        android:id="@+id/classicFragment"
+        android:name="com.example.musicapp.views.ClassicFragment"
+        android:label="@string/title_classical"
+        tools:layout="@layout/fragment_classic" />
 </navigation>
