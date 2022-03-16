@@ -11,10 +11,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private  val binding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
 
         MusicApp.musicComponent.inject(this)
 
@@ -23,21 +26,24 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * this function is on charge to navegation between fragments 
+     */
+
     fun navegation() {
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        val navView: BottomNavigationView = binding.activityMainBottomNavigationView
+     setContentView(binding.root)
 
-        val navController = findNavController(R.id.activity_main_nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.rockFragment, R.id.classicFragment, R.id.popFragment
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+      val navView: BottomNavigationView = binding.activityMainBottomNavigationView
+      val navController = findNavController(R.id.activity_main_nav_host_fragment)
+      // Passing each menu ID as a set of Ids because each
+       // menu should be considered as top level destinations.
+     val appBarConfiguration = AppBarConfiguration(
+        setOf(
+              R.id.rockFragment, R.id.classicFragment, R.id.popFragment
+         )
+       )
+      setupActionBarWithNavController(navController, appBarConfiguration)
+      navView.setupWithNavController(navController)
     }
 }

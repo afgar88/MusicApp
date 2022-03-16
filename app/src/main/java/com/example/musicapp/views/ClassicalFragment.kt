@@ -6,28 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.musicapp.R
 import com.example.musicapp.adapter.SongAdapter
-import com.example.musicapp.databinding.FragmentRockBinding
+import com.example.musicapp.databinding.FragmentPopBinding
 import com.example.musicapp.model.SongItem
 import com.example.musicapp.rest.MusicService
 import retrofit2.Call
 import retrofit2.Callback
-
 import retrofit2.Response
 
 
-class RockFragment : Fragment() {
-
-
+class ClassicFragment : Fragment() {
     val binding by lazy {
-        FragmentRockBinding.inflate(layoutInflater)
+        FragmentPopBinding.inflate(layoutInflater)
     }
-
     var my_adapter = SongAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
 
@@ -35,9 +31,7 @@ class RockFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        // binding = FragmentRockBinding.inflate(inflater, container, false)
-        binding.rockReciclerView.apply {
+        binding.popReciclerView.apply {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = my_adapter
@@ -48,7 +42,7 @@ class RockFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        MusicService.retrofitService.getRockSongs().enqueue(object : Callback<SongItem> {
+        MusicService.retrofitService.getClassicalSongs().enqueue(object : Callback<SongItem> {
             override fun onResponse(call: Call<SongItem>, response: Response<SongItem>) {
                 if (response.isSuccessful) {
                     response.body()?.let {
@@ -67,11 +61,9 @@ class RockFragment : Fragment() {
 
     }
 
-
     companion object {
 
-
-        fun newInstance() = RockFragment()
+        @JvmStatic
+        fun newInstance() = ClassicFragment()
     }
-
 }

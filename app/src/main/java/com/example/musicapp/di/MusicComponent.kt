@@ -8,7 +8,8 @@ import dagger.Component
 
 @Component(
     modules = [NetworkModule::class,
-    ApplicationModule::class]
+        ApplicationModule::class,
+        PresentersModule::class]
 )
 interface MusicComponent {
     fun inject(mainActivity: MainActivity)
