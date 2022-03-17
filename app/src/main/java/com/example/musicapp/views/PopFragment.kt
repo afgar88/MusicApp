@@ -1,5 +1,6 @@
 package com.example.musicapp.views
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,19 +9,29 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicapp.adapter.SongAdapter
 import com.example.musicapp.databinding.FragmentPopBinding
+import com.example.musicapp.model.Song
 import com.example.musicapp.model.SongItem
+import com.example.musicapp.presenters.PopPresenter
+import com.example.musicapp.presenters.PopPresenterContract
+import com.example.musicapp.presenters.PopViewContract
 import com.example.musicapp.rest.MusicService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class PopFragment : Fragment() {
+class PopFragment : BaseFragment(), PopViewContract {
     val binding by lazy {
         FragmentPopBinding.inflate(layoutInflater)
     }
 
-    var my_adapter = SongAdapter()
+    private val songAdapter by lazy {
+        SongAdapter()
+    }
+
+    private val popPresenter: PopPresenterContract by lazy {
+        PopPresenter(requireContext(), this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,31 +48,48 @@ class PopFragment : Fragment() {
         binding.popReciclerView.apply {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            adapter = my_adapter
+            adapter = songAdapter
         }
 
+        popPresenter.checkNetwork()
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        MusicService.retrofitService.getPopSongs().enqueue(object : Callback<SongItem> {
-            override fun onResponse(call: Call<SongItem>, response: Response<SongItem>) {
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        for (x in it.Song.indices) {
-                            my_adapter.upDateData(it.Song[x])
-                        }
-                    }
-                }
+        popPresenter.getPop()
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        popPresenter.destroy()
+    }
+
+
+    override fun loadingPop(isLoading: Boolean) {
+        binding.popReciclerView.visibility = View.GONE
+        binding.loadingImgPop.visibility = View.VISIBLE
+    }
+
+    override fun popSuccess(song: Song) {
+        binding.loadingImgPop.visibility = View.GONE
+        binding.popReciclerView.visibility = View.VISIBLE
+        songAdapter.upDateData(song)
+    }
+
+    override fun popError(throwable: Throwable) {
+        binding.popReciclerView.visibility = View.GONE
+        binding.loadingImgPop.visibility = View.GONE
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("AN ERROR HAS OCCURRED")
+            .setMessage(throwable.localizedMessage)
+            .setPositiveButton("DISMISS") { dialogInterface, i ->
+                dialogInterface.dismiss()
             }
-
-            override fun onFailure(call: Call<SongItem>, t: Throwable) {
-                //no-op
-            }
-
-        })
-
+            .create()
+            .show()
     }
 
     companion object {

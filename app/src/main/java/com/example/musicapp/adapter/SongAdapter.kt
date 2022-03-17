@@ -47,7 +47,7 @@ class SongViewAdapter(itemView: View) : RecyclerView.ViewHolder(itemView) {
         title.text = songInfo.trackName
         artist.text = songInfo.artistName
         collection.text = songInfo.collectionName
-        price.text=songInfo.trackPrice.toString()
+        price.text=songInfo.trackPrice.toString()+" USD"
 
 
         Picasso.get().load(songInfo.artworkUrl100)

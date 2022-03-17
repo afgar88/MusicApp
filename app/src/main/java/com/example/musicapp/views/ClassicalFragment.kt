@@ -1,5 +1,6 @@
 package com.example.musicapp.views
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,19 +9,28 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicapp.R
 import com.example.musicapp.adapter.SongAdapter
+import com.example.musicapp.databinding.FragmentClassicBinding
 import com.example.musicapp.databinding.FragmentPopBinding
+import com.example.musicapp.model.Song
 import com.example.musicapp.model.SongItem
+import com.example.musicapp.presenters.*
 import com.example.musicapp.rest.MusicService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class ClassicFragment : Fragment() {
+class ClassicFragment : BaseFragment(), ClassicalViewContract {
     val binding by lazy {
-        FragmentPopBinding.inflate(layoutInflater)
+        FragmentClassicBinding.inflate(layoutInflater)
     }
-    var my_adapter = SongAdapter()
+    private val songAdapter by lazy {
+        SongAdapter()
+    }
+
+    private val classicalPresenter: ClassicalPresenterContract by lazy {
+        ClassicalPresenter(requireContext(), this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,34 +41,50 @@ class ClassicFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding.popReciclerView.apply {
+        binding.classicalReciclerView.apply {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            adapter = my_adapter
+            adapter = songAdapter
         }
-
+        classicalPresenter.checkNetwork()
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        MusicService.retrofitService.getClassicalSongs().enqueue(object : Callback<SongItem> {
-            override fun onResponse(call: Call<SongItem>, response: Response<SongItem>) {
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        for (x in it.Song.indices) {
-                            my_adapter.upDateData(it.Song[x])
-                        }
-                    }
-                }
+        classicalPresenter.getClassical()
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        classicalPresenter.destroy()
+    }
+
+
+    override fun loadingClassical(isLoading: Boolean) {
+        binding.classicalReciclerView.visibility = View.GONE
+        binding.loadingImgCla.visibility = View.VISIBLE
+    }
+
+    override fun ClassicalSuccess(song: Song) {
+        binding.loadingImgCla.visibility = View.GONE
+        binding.classicalReciclerView.visibility = View.VISIBLE
+        songAdapter.upDateData(song)
+    }
+
+    override fun ClassicalError(throwable: Throwable) {
+        binding.classicalReciclerView.visibility = View.GONE
+        binding.loadingImgCla.visibility = View.GONE
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("AN ERROR HAS OCCURRED")
+            .setMessage(throwable.localizedMessage)
+            .setPositiveButton("DISMISS") { dialogInterface, i ->
+                dialogInterface.dismiss()
             }
-
-            override fun onFailure(call: Call<SongItem>, t: Throwable) {
-                //no-op
-            }
-
-        })
-
+            .create()
+            .show()
     }
 
     companion object {
@@ -67,3 +93,4 @@ class ClassicFragment : Fragment() {
         fun newInstance() = ClassicFragment()
     }
 }
+

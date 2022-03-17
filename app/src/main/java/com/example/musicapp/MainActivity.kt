@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        MusicApp.musicComponent.inject(this)
+//        MusicApp.musicComponent.inject(this)
 
         navegation()
 

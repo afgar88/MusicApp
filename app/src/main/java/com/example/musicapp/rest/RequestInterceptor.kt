@@ -3,6 +3,11 @@ package com.example.musicapp.rest
 import okhttp3.Interceptor
 import okhttp3.Response
 
+/**
+ * This Interceptor is for the Request to the network API
+ *
+ */
+
 class RequestInterceptor :Interceptor{
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder().apply {
