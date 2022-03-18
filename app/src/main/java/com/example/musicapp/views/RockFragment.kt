@@ -1,24 +1,22 @@
 package com.example.musicapp.views
 
 import android.app.AlertDialog
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicapp.adapter.SongAdapter
+import com.example.musicapp.adapter.SongListener
 import com.example.musicapp.databinding.FragmentRockBinding
 import com.example.musicapp.model.Song
-import com.example.musicapp.model.SongItem
 import com.example.musicapp.presenters.RockPresenter
 import com.example.musicapp.presenters.RockPresenterContract
 import com.example.musicapp.presenters.RockViewContract
-import com.example.musicapp.rest.MusicService
-import retrofit2.Call
-import retrofit2.Callback
-
-import retrofit2.Response
 
 
 class RockFragment : BaseFragment(), RockViewContract {
@@ -28,12 +26,18 @@ class RockFragment : BaseFragment(), RockViewContract {
         FragmentRockBinding.inflate(layoutInflater)
     }
 
+    lateinit var songListener: SongListener
     private val songAdapter by lazy {
-        SongAdapter()
+        SongAdapter(songListener)
     }
 
     private val rockPresenter: RockPresenterContract by lazy {
         RockPresenter(requireContext(), this)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        songListener = activity as SongListener
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,17 +58,31 @@ class RockFragment : BaseFragment(), RockViewContract {
             adapter = songAdapter
         }
 
+        binding.rockReciclerView.setOnClickListener() {
+            Log.d("Musica", "hole")
+
+        }
+
         rockPresenter.checkNetwork()
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-
         rockPresenter.getRock()
 
 
+        binding.swipeRock.apply {
+            setOnRefreshListener {
+                rockPresenter.getRock()
+                isRefreshing = false
+            }
+
+        }
+
+
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

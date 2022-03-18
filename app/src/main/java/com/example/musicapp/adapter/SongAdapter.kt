@@ -1,5 +1,6 @@
 package com.example.musicapp.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.musicapp.R
 import com.example.musicapp.model.Song
 import com.squareup.picasso.Picasso
+import java.util.*
 
 class SongAdapter(
+    private var songListener: SongListener,
     private val songList: MutableList<Song> = mutableListOf()
 ) : RecyclerView.Adapter<SongViewAdapter>() {
 
@@ -30,6 +33,10 @@ class SongAdapter(
     override fun onBindViewHolder(adapter: SongViewAdapter, position: Int) {
         val my_song = songList[position]
         adapter.bind(my_song)
+        adapter.itemView.setOnClickListener{
+            songListener.playSong(songList[position].previewUrl)
+
+        }
     }
 
     override fun getItemCount(): Int = songList.size
