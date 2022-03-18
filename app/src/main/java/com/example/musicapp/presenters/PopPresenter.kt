@@ -16,9 +16,16 @@ class PopPresenter(
     private val disposable: CompositeDisposable = CompositeDisposable()
 ) : PopPresenterContract {
 
+    /**
+     * This function check the network status
+     */
     override fun checkNetwork() {
         networkUtils.registerForNetworkState()
     }
+
+    /**
+     * This function check the network status
+     */
 
     override fun getPop() {
         viewContract?.loadingPop(true)
@@ -36,6 +43,9 @@ class PopPresenter(
                 disposable.add(this)
             }
     }
+    /**
+     * this functionvun register the network state, destroy the context, the view contract and dispose them
+     */
 
     override fun destroy() {
         networkUtils.unregisterFromNetworkState()
@@ -43,6 +53,10 @@ class PopPresenter(
         viewContract = null
         disposable.dispose()
     }
+
+    /**
+     * this function confirm the network works an call it
+     */
 
     private fun doNetworkCall() {
         MusicService.retrofitService.getPopSongs()

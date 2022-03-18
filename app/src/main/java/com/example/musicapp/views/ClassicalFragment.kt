@@ -36,6 +36,7 @@ class ClassicFragment : BaseFragment(), ClassicalViewContract {
         ClassicalPresenter(requireContext(), this)
     }
 
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         songListener=activity as SongListener
@@ -45,7 +46,9 @@ class ClassicFragment : BaseFragment(), ClassicalViewContract {
         super.onCreate(savedInstanceState)
     }
 
-
+    /**
+     * This function apply the configuration to the recicler view with the linear layout manager when the view is created
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,6 +62,9 @@ class ClassicFragment : BaseFragment(), ClassicalViewContract {
         return binding.root
     }
 
+    /**
+     * when the fragment is on resume this function get the data
+     */
     override fun onResume() {
         super.onResume()
         classicalPresenter.getClassical()
@@ -72,23 +78,32 @@ class ClassicFragment : BaseFragment(), ClassicalViewContract {
 
     }
 
+
     override fun onDestroy() {
         super.onDestroy()
         classicalPresenter.destroy()
     }
 
-
+    /**
+     * this function switch the visibility in the screen of the loading ico and the recycler view, hide the recycler view and show the loading image
+     */
     override fun loadingClassical(isLoading: Boolean) {
         binding.classicalReciclerView.visibility = View.GONE
         binding.loadingImgCla.visibility = View.VISIBLE
     }
 
+    /**
+     * this function switch the visibility in the screen of the loading ico and the recycler view if everything is good show the recycler and hide the loading image
+     */
     override fun ClassicalSuccess(song: Song) {
         binding.loadingImgCla.visibility = View.GONE
         binding.classicalReciclerView.visibility = View.VISIBLE
         songAdapter.upDateData(song)
     }
 
+    /**
+     * if something is wrong show in screen a error message and hide the recycler view and the loading image
+     */
     override fun ClassicalError(throwable: Throwable) {
         binding.classicalReciclerView.visibility = View.GONE
         binding.loadingImgCla.visibility = View.GONE

@@ -18,6 +18,7 @@ class NetworkUtils(
 
     val networkState: BehaviorSubject<Boolean> = BehaviorSubject.createDefault(isNetworkAvailable())
 
+    
     fun registerForNetworkState() {
         connectivityManager?.registerNetworkCallback(networkRequest, this)
     }

@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), SongListener {
     }
 
     /**
-     *
+     * This function is the implementation of the interface that is on charge to reproduce the preview music
      */
 
     override fun playSong(path: String) {

@@ -8,6 +8,10 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
+
+/**
+ * here use the interceptors to check the network status and Rxjava to observe an subscribe the items
+ */
 object MusicService {
     private val httpLoggingInterceptor by lazy {
         HttpLoggingInterceptor().apply {

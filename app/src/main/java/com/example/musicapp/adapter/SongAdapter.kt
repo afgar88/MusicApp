@@ -17,6 +17,11 @@ class SongAdapter(
     private val songList: MutableList<Song> = mutableListOf()
 ) : RecyclerView.Adapter<SongViewAdapter>() {
 
+
+    /**
+     * This funtion add an element to the list, notify the position where the item is
+     * inserted and Notify any registered observers that the data set has changed.
+     */
     fun upDateData(Song: Song) {
         songList.add(Song)
         notifyItemInserted(0)
@@ -24,11 +29,18 @@ class SongAdapter(
 
     }
 
+    /**
+     * this function create a new ViewHolder and initializes some private fields
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewAdapter {
         val songItem =
             LayoutInflater.from(parent.context).inflate(R.layout.item_song, parent, false)
         return SongViewAdapter(songItem)
     }
+
+    /**
+     * this function update the ViewHolder contents with the item at the given position
+     */
 
     override fun onBindViewHolder(adapter: SongViewAdapter, position: Int) {
         val my_song = songList[position]
@@ -38,6 +50,10 @@ class SongAdapter(
 
         }
     }
+
+    /**
+     * This function count the elements added to the list
+     */
 
     override fun getItemCount(): Int = songList.size
 }
@@ -49,6 +65,10 @@ class SongViewAdapter(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val collection: TextView = itemView.findViewById(R.id.song_colection)
     private val image: ImageView = itemView.findViewById(R.id.song_image)
     private val price:TextView=itemView.findViewById(R.id.song_price)
+
+    /**
+     * this funtion bind the data with the view
+     */
 
     fun bind(songInfo: Song) {
         title.text = songInfo.trackName

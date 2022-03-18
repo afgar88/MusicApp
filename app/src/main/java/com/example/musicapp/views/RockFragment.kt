@@ -45,6 +45,9 @@ class RockFragment : BaseFragment(), RockViewContract {
 
     }
 
+    /**
+     * This function apply the configuration to the recicler view with the linear layout manager when the view is created
+     */
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,6 +69,10 @@ class RockFragment : BaseFragment(), RockViewContract {
         rockPresenter.checkNetwork()
         return binding.root
     }
+
+    /**
+     * when the fragment is on resume this function get the data
+     */
 
     override fun onResume() {
         super.onResume()
@@ -89,18 +96,27 @@ class RockFragment : BaseFragment(), RockViewContract {
         rockPresenter.destroy()
     }
 
+    /**
+     * this function switch the visibility in the screen of the loading ico and the recycler view, hide the recycler view and show the loading image
+     */
 
     override fun loadingRock(isLoading: Boolean) {
         binding.rockReciclerView.visibility = View.GONE
         binding.loadingImg.visibility = View.VISIBLE
     }
-
+    /**
+     * this function switch the visibility in the screen of the loading ico and the recycler view if everything is good show the recycler and hide the loading image
+     */
 
     override fun rockSuccess(song: Song) {
         binding.loadingImg.visibility = View.GONE
         binding.rockReciclerView.visibility = View.VISIBLE
         songAdapter.upDateData(song)
     }
+
+    /**
+     * if something is wrong show in screen a error message and hide the recycler view and the loading image
+     */
 
     override fun rockError(throwable: Throwable) {
         binding.rockReciclerView.visibility = View.GONE

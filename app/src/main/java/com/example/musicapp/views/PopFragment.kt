@@ -46,7 +46,9 @@ class PopFragment : BaseFragment(), PopViewContract {
 
     }
 
-
+    /**
+     * This function apply the configuration to the recicler view with the linear layout manager when the view is created
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,6 +65,9 @@ class PopFragment : BaseFragment(), PopViewContract {
         return binding.root
     }
 
+    /**
+     * when the fragment is on resume this function get the data
+     */
     override fun onResume() {
         super.onResume()
         popPresenter.getPop()
@@ -81,18 +86,25 @@ class PopFragment : BaseFragment(), PopViewContract {
         popPresenter.destroy()
     }
 
-
+    /**
+     * this function switch the visibility in the screen of the loading ico and the recycler view, hide the recycler view and show the loading image
+     */
     override fun loadingPop(isLoading: Boolean) {
         binding.popReciclerView.visibility = View.GONE
         binding.loadingImgPop.visibility = View.VISIBLE
     }
-
+    /**
+     * this function switch the visibility in the screen of the loading ico and the recycler view if everything is good show the recycler and hide the loading image
+     */
     override fun popSuccess(song: Song) {
         binding.loadingImgPop.visibility = View.GONE
         binding.popReciclerView.visibility = View.VISIBLE
         songAdapter.upDateData(song)
     }
 
+    /**
+     * if something is wrong show in screen a error message and hide the recycler view and the loading image
+     */
     override fun popError(throwable: Throwable) {
         binding.popReciclerView.visibility = View.GONE
         binding.loadingImgPop.visibility = View.GONE

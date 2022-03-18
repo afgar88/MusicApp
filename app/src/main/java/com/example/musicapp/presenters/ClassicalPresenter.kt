@@ -16,10 +16,17 @@ class ClassicalPresenter(
     private val disposable: CompositeDisposable = CompositeDisposable()
 ) : ClassicalPresenterContract {
 
+    /**
+     * This function check the network status
+     */
     override fun checkNetwork() {
         networkUtils.registerForNetworkState()
     }
 
+    /**
+     * this function subscribes to an ObservableSource and provides callbacks to handle the items,
+     * if doest has a conection show a error message
+     */
     override fun getClassical() {
         viewContract?.loadingClassical(true)
         networkUtils.networkState
@@ -37,6 +44,10 @@ class ClassicalPresenter(
             }
     }
 
+    /**
+     * this functionvun register the network state, destroy the context, the view contract and dispose them
+     */
+
     override fun destroy() {
         networkUtils.unregisterFromNetworkState()
         context = null
@@ -44,6 +55,10 @@ class ClassicalPresenter(
         disposable.dispose()
     }
 
+
+    /**
+     * this function confirm the network works an call it
+     */
     private fun doNetworkCall() {
         MusicService.retrofitService.getClassicalSongs()
             .subscribeOn(Schedulers.io())

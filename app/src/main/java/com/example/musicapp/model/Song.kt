@@ -3,6 +3,10 @@ package com.example.musicapp.model
 
 import com.google.gson.annotations.SerializedName
 
+
+/**
+ * this is all parameters that we got from the Gson
+ */
 data class Song(
     @SerializedName("artistId")
     val artistId: Int,

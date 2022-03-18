@@ -16,9 +16,16 @@ class RockPresenter(
     private val disposable: CompositeDisposable = CompositeDisposable()
 ) : RockPresenterContract {
 
+    /**
+     * This function check the network status
+     */
     override fun checkNetwork() {
         networkUtils.registerForNetworkState()
     }
+
+    /**
+     * This function check the network status
+     */
 
     override fun getRock() {
         viewContract?.loadingRock(true)
@@ -37,12 +44,20 @@ class RockPresenter(
             }
     }
 
+    /**
+     * this functionvun register the network state, destroy the context, the view contract and dispose them
+     */
+
     override fun destroy() {
         networkUtils.unregisterFromNetworkState()
         context = null
         viewContract = null
         disposable.dispose()
     }
+
+    /**
+     * this function confirm the network works an call it
+     */
 
     private fun doNetworkCall() {
         MusicService.retrofitService.getRockSongs()
