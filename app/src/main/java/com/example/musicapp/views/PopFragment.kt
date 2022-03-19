@@ -96,7 +96,7 @@ class PopFragment : BaseFragment(), PopViewContract {
     /**
      * this function switch the visibility in the screen of the loading ico and the recycler view if everything is good show the recycler and hide the loading image
      */
-    override fun popSuccess(song: Song) {
+    override fun popSuccess(song: List<Song>) {
         binding.loadingImgPop.visibility = View.GONE
         binding.popReciclerView.visibility = View.VISIBLE
         songAdapter.upDateData(song)

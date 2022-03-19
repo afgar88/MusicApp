@@ -35,10 +35,10 @@ class ClassicalPresenter(
                     if (netState) {
                         doNetworkCall()
                     } else {
-                        viewContract?.ClassicalError(Throwable("ERROR NO INTERNET CONNECTION"))
+                        viewContract?.classicalError(Throwable("ERROR NO INTERNET CONNECTION"))
                     }
                 },
-                { viewContract?.ClassicalError(it) }
+                { viewContract?.classicalError(it) }
             ).apply {
                 disposable.add(this)
             }
@@ -65,14 +65,11 @@ class ClassicalPresenter(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    val song = SongItem(it.Song.size, it.Song)
-                    for (i in it.Song.indices) {
-                        viewContract?.ClassicalSuccess(song.Song[i])
-                    }
+                    viewContract?.classicalSuccess(it.Song)
 
                 },
                 {
-                    viewContract?.ClassicalError(it)
+                    viewContract?.classicalError(it)
                 }
             ).apply {
                 disposable.add(this)
@@ -82,8 +79,8 @@ class ClassicalPresenter(
 
 interface ClassicalViewContract {
     fun loadingClassical(isLoading: Boolean)
-    fun ClassicalSuccess(song: Song)
-    fun ClassicalError(throwable: Throwable)
+    fun classicalSuccess(song: List<Song>)
+    fun classicalError(throwable: Throwable)
 }
 
 interface ClassicalPresenterContract {

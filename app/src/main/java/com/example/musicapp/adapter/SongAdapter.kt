@@ -14,7 +14,7 @@ import java.util.*
 
 class SongAdapter(
     private var songListener: SongListener,
-    private val songList: MutableList<Song> = mutableListOf()
+    private var songList: List<Song> = listOf()
 ) : RecyclerView.Adapter<SongViewAdapter>() {
 
 
@@ -22,9 +22,9 @@ class SongAdapter(
      * This funtion add an element to the list, notify the position where the item is
      * inserted and Notify any registered observers that the data set has changed.
      */
-    fun upDateData(Song: Song) {
-        songList.add(Song)
-        notifyItemInserted(0)
+    fun upDateData(songL: List<Song>) {
+        songList=songL
+        //notifyItemInserted(0)
         notifyDataSetChanged()
 
     }
@@ -46,7 +46,7 @@ class SongAdapter(
         val my_song = songList[position]
         adapter.bind(my_song)
         adapter.itemView.setOnClickListener{
-            songListener.playSong(songList[position].previewUrl)
+            songListener.playSong(songList[position].previewUrl!!)
 
         }
     }

@@ -1,6 +1,9 @@
 package com.example.musicapp.presenters
 
 import android.content.Context
+import android.util.Log
+import com.example.musicapp.database.SongDatabase
+import com.example.musicapp.database.SongRepository
 import com.example.musicapp.model.Song
 import com.example.musicapp.model.SongItem
 import com.example.musicapp.rest.MusicService
@@ -13,7 +16,8 @@ class RockPresenter(
     private var context: Context? = null,
     private var viewContract: RockViewContract? = null,
     private val networkUtils: NetworkUtils = NetworkUtils(context),
-    private val disposable: CompositeDisposable = CompositeDisposable()
+    private val disposable: CompositeDisposable = CompositeDisposable(),
+    private var songRepo: SongRepository? = SongRepository(SongDatabase.getDatabase(context!!))
 ) : RockPresenterContract {
 
     /**
@@ -53,10 +57,11 @@ class RockPresenter(
         context = null
         viewContract = null
         disposable.dispose()
+        songRepo = null
     }
 
     /**
-     * this function confirm the network works an call it
+     * this function charge the data sabe in data base an get the same information from database and show in the recicler view
      */
 
     private fun doNetworkCall() {
@@ -65,10 +70,34 @@ class RockPresenter(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    val song = SongItem(it.Song.size, it.Song)
-                    for (i in it.Song.indices) {
-                        viewContract?.rockSuccess(song.Song[i])
+//                    val song = SongItem(it.Song.size, it.Song)
+                    for (i in it.Song) {
+                        i.gender= "rock"
                     }
+                    Log.d("TOTAL_ITEM_1",it.Song.size.toString())
+
+                    songRepo?.insertSongs(it.Song)?.subscribeOn(Schedulers.io())
+                        ?.observeOn(AndroidSchedulers.mainThread())
+                        ?.subscribe(
+                            {
+                                songRepo?.getSongs("rock")
+                                    ?.subscribeOn(Schedulers.io())
+                                    ?.observeOn(AndroidSchedulers.mainThread())
+                                    ?.subscribe(
+                                        { rocks ->
+                                            viewContract?.rockSuccess(rocks)
+//
+                                        }, {error ->
+                                            viewContract?.rockError(error)
+                                        })
+                                    .apply { disposable.add(this!!) }
+                            },
+                            {
+                                viewContract?.rockError(it)
+                            }).apply {
+                            disposable.add(this!!)
+                        }
+
 
                 },
                 {
@@ -82,7 +111,7 @@ class RockPresenter(
 
 interface RockViewContract {
     fun loadingRock(isLoading: Boolean)
-    fun rockSuccess(song: Song)
+    fun rockSuccess(song: List<Song>)
     fun rockError(throwable: Throwable)
 }
 

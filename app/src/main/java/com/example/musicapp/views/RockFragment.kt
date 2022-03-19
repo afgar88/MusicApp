@@ -108,7 +108,7 @@ class RockFragment : BaseFragment(), RockViewContract {
      * this function switch the visibility in the screen of the loading ico and the recycler view if everything is good show the recycler and hide the loading image
      */
 
-    override fun rockSuccess(song: Song) {
+    override fun rockSuccess(song: List<Song>) {
         binding.loadingImg.visibility = View.GONE
         binding.rockReciclerView.visibility = View.VISIBLE
         songAdapter.upDateData(song)

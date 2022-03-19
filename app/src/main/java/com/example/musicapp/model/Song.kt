@@ -1,43 +1,54 @@
 package com.example.musicapp.model
 
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 
 /**
  * this is all parameters that we got from the Gson
  */
+
+@Entity(tableName = "Songs")
 data class Song(
     @SerializedName("artistId")
     val artistId: Int,
+
+    @ColumnInfo(name = "artistName")
     @SerializedName("artistName")
-    val artistName: String,
+    val artistName: String?,
     @SerializedName("artistViewUrl")
-    val artistViewUrl: String,
+    val artistViewUrl: String?,
+
+    @ColumnInfo(name = "artworkUrl100")
     @SerializedName("artworkUrl100")
-    val artworkUrl100: String,
+    val artworkUrl100: String?,
     @SerializedName("artworkUrl30")
-    val artworkUrl30: String,
+    val artworkUrl30: String?,
     @SerializedName("artworkUrl60")
-    val artworkUrl60: String,
+    val artworkUrl60: String?,
     @SerializedName("collectionCensoredName")
-    val collectionCensoredName: String,
+    val collectionCensoredName: String?,
     @SerializedName("collectionExplicitness")
-    val collectionExplicitness: String,
+    val collectionExplicitness: String?,
     @SerializedName("collectionId")
     val collectionId: Int,
+
+    @ColumnInfo(name = "collectionName")
     @SerializedName("collectionName")
-    val collectionName: String,
+    val collectionName: String?,
     @SerializedName("collectionPrice")
     val collectionPrice: Double,
     @SerializedName("collectionViewUrl")
-    val collectionViewUrl: String,
+    val collectionViewUrl: String?,
     @SerializedName("contentAdvisoryRating")
-    val contentAdvisoryRating: String,
+    val contentAdvisoryRating: String?,
     @SerializedName("country")
-    val country: String,
+    val country: String?,
     @SerializedName("currency")
-    val currency: String,
+    val currency: String?,
     @SerializedName("discCount")
     val discCount: Int,
     @SerializedName("discNumber")
@@ -45,31 +56,47 @@ data class Song(
     @SerializedName("isStreamable")
     val isStreamable: Boolean,
     @SerializedName("kind")
-    val kind: String,
+    val kind: String?,
+
+    @ColumnInfo(name = "previewUrl")
     @SerializedName("previewUrl")
-    val previewUrl: String,
+    val previewUrl: String?,
+
+    @ColumnInfo(name = "primaryGenreName")
     @SerializedName("primaryGenreName")
-    val primaryGenreName: String,
+    val primaryGenreName: String?,
     @SerializedName("releaseDate")
-    val releaseDate: String,
+    val releaseDate: String?,
     @SerializedName("trackCensoredName")
-    val trackCensoredName: String,
+    val trackCensoredName: String?,
     @SerializedName("trackCount")
     val trackCount: Int,
     @SerializedName("trackExplicitness")
-    val trackExplicitness: String,
+    val trackExplicitness: String?,
+
+    @PrimaryKey(autoGenerate = true)
     @SerializedName("trackId")
     val trackId: Int,
+
+    @ColumnInfo(name = "trackName")
     @SerializedName("trackName")
-    val trackName: String,
+    val trackName: String?,
     @SerializedName("trackNumber")
     val trackNumber: Int,
+
+    @ColumnInfo(name = "trackPrice")
     @SerializedName("trackPrice")
     val trackPrice: Double,
     @SerializedName("trackTimeMillis")
     val trackTimeMillis: Int,
     @SerializedName("trackViewUrl")
-    val trackViewUrl: String,
+    val trackViewUrl: String?,
     @SerializedName("wrapperType")
-    val wrapperType: String
+    val wrapperType: String?,
+
+    @ColumnInfo(name = "gender")
+    @SerializedName("gender")
+    var gender: String?
+
+
 )

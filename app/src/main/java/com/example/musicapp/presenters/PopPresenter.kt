@@ -43,6 +43,7 @@ class PopPresenter(
                 disposable.add(this)
             }
     }
+
     /**
      * this functionvun register the network state, destroy the context, the view contract and dispose them
      */
@@ -64,10 +65,8 @@ class PopPresenter(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    val song = SongItem(it.Song.size, it.Song)
-                    for (i in it.Song.indices) {
-                        viewContract?.popSuccess(song.Song[i])
-                    }
+
+                    viewContract?.popSuccess(it.Song)
 
                 },
                 {
@@ -81,7 +80,7 @@ class PopPresenter(
 
 interface PopViewContract {
     fun loadingPop(isLoading: Boolean)
-    fun popSuccess(song: Song)
+    fun popSuccess(song: List<Song>)
     fun popError(throwable: Throwable)
 }
 

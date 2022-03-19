@@ -95,7 +95,7 @@ class ClassicFragment : BaseFragment(), ClassicalViewContract {
     /**
      * this function switch the visibility in the screen of the loading ico and the recycler view if everything is good show the recycler and hide the loading image
      */
-    override fun ClassicalSuccess(song: Song) {
+    override fun classicalSuccess(song: List<Song>) {
         binding.loadingImgCla.visibility = View.GONE
         binding.classicalReciclerView.visibility = View.VISIBLE
         songAdapter.upDateData(song)
@@ -104,7 +104,7 @@ class ClassicFragment : BaseFragment(), ClassicalViewContract {
     /**
      * if something is wrong show in screen a error message and hide the recycler view and the loading image
      */
-    override fun ClassicalError(throwable: Throwable) {
+    override fun classicalError(throwable: Throwable) {
         binding.classicalReciclerView.visibility = View.GONE
         binding.loadingImgCla.visibility = View.GONE
 
