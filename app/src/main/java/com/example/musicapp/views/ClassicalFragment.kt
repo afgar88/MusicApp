@@ -3,23 +3,15 @@ package com.example.musicapp.views
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.musicapp.R
 import com.example.musicapp.adapter.SongAdapter
 import com.example.musicapp.adapter.SongListener
 import com.example.musicapp.databinding.FragmentClassicBinding
-import com.example.musicapp.databinding.FragmentPopBinding
 import com.example.musicapp.model.Song
-import com.example.musicapp.model.SongItem
 import com.example.musicapp.presenters.*
-import com.example.musicapp.rest.MusicService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class ClassicFragment : BaseFragment(), ClassicalViewContract {
