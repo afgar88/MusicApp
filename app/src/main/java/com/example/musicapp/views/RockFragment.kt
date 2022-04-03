@@ -40,11 +40,6 @@ class RockFragment : BaseFragment(), RockViewContract {
         songListener = activity as SongListener
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     /**
      * This function apply the configuration to the recicler view with the linear layout manager when the view is created
      */
@@ -131,11 +126,4 @@ class RockFragment : BaseFragment(), RockViewContract {
             .create()
             .show()
     }
-
-    companion object {
-
-
-        fun newInstance() = RockFragment()
-    }
-
 }
