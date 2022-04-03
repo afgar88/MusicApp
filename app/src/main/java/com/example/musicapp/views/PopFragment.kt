@@ -41,11 +41,6 @@ class PopFragment : BaseFragment(), PopViewContract {
         songListener = activity as SongListener
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     /**
      * This function apply the configuration to the recicler view with the linear layout manager when the view is created
      */
@@ -118,12 +113,4 @@ class PopFragment : BaseFragment(), PopViewContract {
             .create()
             .show()
     }
-
-    companion object {
-
-        @JvmStatic
-        fun newInstance() = PopFragment()
-
-    }
-
 }
